@@ -1,0 +1,25 @@
+[project]
+name = "recover-data-service"
+version = "0.1.0"
+description = "Python microservice for PDF report generation — connects to the recover PostgreSQL database"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "asyncpg>=0.31.0",
+    "fastapi[standard]>=0.135.3",
+    "jinja2>=3.1.6",
+    "pydantic-settings>=2.13.1",
+    "python-dotenv>=1.2.2",
+    "sqlalchemy[asyncio]>=2.0.49",
+    "weasyprint>=68.1",
+]
+
+[dependency-groups]
+dev = [
+    "httpx>=0.28.1",
+    "pytest>=9.0.2",
+    "pytest-asyncio>=1.3.0",
+]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"

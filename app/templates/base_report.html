@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Relatório - {{ start_date }} a {{ end_date }}</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: Arial, sans-serif; font-size: 12px; color: #1a1a2e; padding: 40px; }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 3px solid #1a1a2e;
+      padding-bottom: 16px;
+      margin-bottom: 32px;
+    }
+    .header h1 { font-size: 22px; font-weight: bold; }
+    .header .period { font-size: 11px; color: #555; }
+
+    .section-title {
+      font-size: 14px;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      border-left: 4px solid #1a1a2e;
+      padding-left: 10px;
+      margin: 24px 0 12px;
+    }
+
+    .placeholder {
+      background: #f4f4f8;
+      border: 1px dashed #ccc;
+      padding: 24px;
+      text-align: center;
+      color: #888;
+      border-radius: 6px;
+    }
+
+    .footer {
+      margin-top: 48px;
+      border-top: 1px solid #ccc;
+      padding-top: 12px;
+      font-size: 10px;
+      color: #888;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <h1>Recover &mdash; Relatório</h1>
+    <div class="period">
+      Período: <strong>{{ start_date }}</strong> a <strong>{{ end_date }}</strong>
+    </div>
+  </div>
+
+  <div class="section-title">Dados do Período</div>
+  <div class="placeholder">
+    Conteúdo do relatório será definido conforme as regras de negócio.
+  </div>
+
+  <div class="footer">
+    Gerado automaticamente pelo recover-data-service
+  </div>
+
+</body>
+</html>
