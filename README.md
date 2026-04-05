@@ -67,5 +67,47 @@ curl -X POST http://localhost:8001/api/v1/reports/pdf \
 | Variável | Padrão | Descrição |
 |----------|--------|-----------|
 | `DATABASE_URL` | `postgresql+asyncpg://user:password@localhost:5432/recover` | URL de conexão com PostgreSQL |
-| `APP_ENV` | `development` | Ambiente da aplicação |
+| `APP_ENV` | `development` | Ambiente da aplicação (`development`, `uat`, `prd`) |
 | `PORT` | `8001` | Porta do servidor |
+
+## Ambientes
+
+A aplicação carrega variáveis de ambiente com a seguinte prioridade (maior sobrescreve menor):
+
+```
+variáveis do OS  >  .env.{APP_ENV}  >  .env  >  defaults do código
+```
+
+### Development (padrão)
+
+```bash
+cp .env.example .env
+# edite .env com as credenciais locais
+uv run fastapi dev app/main.py --port 8001
+```
+
+### UAT
+
+```bash
+cp .env.uat.example .env.uat
+# edite .env.uat com as credenciais de UAT
+APP_ENV=uat uv run fastapi dev app/main.py --port 8001
+```
+
+### PRD — Docker com arquivo
+
+```bash
+cp .env.prd.example .env.prd
+# edite .env.prd com as credenciais de produção
+docker run --env APP_ENV=prd --env-file .env.prd -p 8001:8001 recover-data-service
+```
+
+### PRD — Docker com env vars injetadas (sem arquivo)
+
+```bash
+docker run \
+  -e APP_ENV=prd \
+  -e DATABASE_URL=postgresql+asyncpg://user:pass@prd-host:5432/recover \
+  -p 8001:8001 \
+  recover-data-service
+```
