@@ -4,7 +4,7 @@ from jinja2 import Environment, PackageLoader, select_autoescape
 from weasyprint import HTML
 
 jinja_env = Environment(
-    loader=PackageLoader("app", "templates"),
+    loader=PackageLoader("app.infrastructure", "templates"),
     autoescape=select_autoescape(["html"]),
 )
 

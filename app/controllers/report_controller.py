@@ -1,8 +1,8 @@
 from fastapi import APIRouter
 from fastapi.responses import Response
 
-from app.schemas.report import DateRangeRequest
-from app.services.pdf_service import generate_pdf, render_report_html
+from app.domain.schemas import DateRangeRequest
+from app.domain.services import generate_pdf, render_report_html
 
 router = APIRouter(prefix="/reports", tags=["reports"])
 

@@ -2,9 +2,9 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 
-from app.api.v1.reports import router as reports_router
-from app.core.config import settings
-from app.core.database import check_db_connection
+from app.controllers import health_router, report_router
+from app.infrastructure.config import settings
+from app.infrastructure.database import check_db_connection
 
 
 @asynccontextmanager
@@ -21,10 +21,5 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
-app.include_router(reports_router, prefix="/api/v1")
-
-
-@app.get("/health", tags=["health"])
-async def health_check() -> dict:
-    db_ok = await check_db_connection()
-    return {"status": "ok", "db": "connected" if db_ok else "unreachable"}
+app.include_router(health_router)
+app.include_router(report_router, prefix="/api/v1")

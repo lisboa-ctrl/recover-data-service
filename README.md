@@ -10,6 +10,25 @@ Microservice Python para geração de relatórios PDF conectado ao banco Postgre
 - **WeasyPrint** — geração de PDF via HTML/CSS + Jinja2
 - **uv** — gerenciador de pacotes
 
+## Arquitetura
+
+O projeto segue uma **arquitetura em 3 camadas** (Layered Architecture):
+
+```
+app/
+├── controllers/         # CAMADA 1: API / Routers (HTTP)
+├── domain/             # CAMADA 2: Lógica de Negócio
+│   ├── entities/       # Entidades de domínio
+│   ├── schemas/        # DTOs / Validação
+│   └── services/       # Serviços de negócio
+└── infrastructure/     # CAMADA 3: Recursos Externos
+    ├── config/         # Configurações
+    ├── database/       # PostgreSQL (models, repositories)
+    └── templates/      # Templates HTML
+```
+
+📄 Para mais detalhes, consulte o arquivo [ARCHITECTURE.md](ARCHITECTURE.md)
+
 ## Setup
 
 ### Pré-requisitos
@@ -26,6 +45,8 @@ cp .env.example .env
 
 uv sync
 ```
+
+> ⚠️ **Nota WSL1:** Se você estiver usando WSL1 e encontrar erros como "Cannot allocate memory" durante `uv sync`, consulte o arquivo [SETUP.md](SETUP.md) para soluções alternativas. Recomendamos atualizar para WSL2.
 
 ### Rodar em desenvolvimento
 

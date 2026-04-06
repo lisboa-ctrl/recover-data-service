@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(ls /home/lisbuenothekid/dev/recover-data-service/.venv/lib/python3.12/site-packages/typing_extensions*)"
+    ]
+  }
+}

@@ -1,0 +1,105 @@
+╔══════════════════════════════════════════════════════════════════╗
+║                    RECOVER DATA SERVICE                           ║
+║              Arquitetura em 3 Camadas (Layered)                   ║
+╚══════════════════════════════════════════════════════════════════╝
+
+┌──────────────────────────────────────────────────────────────────┐
+│                     📱 CAMADA 1: CONTROLLERS                      │
+│                        (API / Routers)                            │
+├──────────────────────────────────────────────────────────────────┤
+│                                                                   │
+│  controllers/                                                     │
+│  ├── health_controller.py    → GET  /health                      │
+│  └── report_controller.py    → POST /api/v1/reports/pdf          │
+│                                                                   │
+│  Responsabilidades:                                               │
+│  ✓ Receber requisições HTTP                                      │
+│  ✓ Validar entrada                                               │
+│  ✓ Chamar serviços de domínio                                    │
+│  ✓ Retornar HTTP responses                                       │
+│                                                                   │
+└──────────────────────────────────────────────────────────────────┘
+                              ↓ ↑
+┌──────────────────────────────────────────────────────────────────┐
+│                     🧠 CAMADA 2: DOMAIN                           │
+│                    (Lógica de Negócio)                            │
+├──────────────────────────────────────────────────────────────────┤
+│                                                                   │
+│  domain/                                                          │
+│  ├── entities/                → Entidades de negócio             │
+│  ├── schemas/                 → DTOs / Validação                 │
+│  │   └── report_schema.py    → DateRangeRequest                  │
+│  └── services/                → Lógica de negócio                │
+│      └── pdf_generator.py    → generate_pdf(), render_html()     │
+│                                                                   │
+│  Responsabilidades:                                               │
+│  ✓ Implementar regras de negócio                                 │
+│  ✓ Processar dados                                               │
+│  ✓ Orquestrar operações                                          │
+│  ✓ Independente de frameworks                                    │
+│                                                                   │
+└──────────────────────────────────────────────────────────────────┘
+                              ↓ ↑
+┌──────────────────────────────────────────────────────────────────┐
+│                  🔧 CAMADA 3: INFRASTRUCTURE                      │
+│              (Banco de Dados / Recursos Externos)                 │
+├──────────────────────────────────────────────────────────────────┤
+│                                                                   │
+│  infrastructure/                                                  │
+│  ├── config/                  → Configurações                    │
+│  │   └── settings.py         → Environment variables             │
+│  ├── database/                → Persistência                     │
+│  │   ├── connection.py       → PostgreSQL connection             │
+│  │   ├── models/             → SQLAlchemy models                 │
+│  │   │   └── base.py         → Base declarativa                  │
+│  │   └── repositories/       → Data access layer                 │
+│  └── templates/               → Recursos externos                │
+│      └── base_report.html    → Template HTML para PDF            │
+│                                                                   │
+│  Responsabilidades:                                               │
+│  ✓ Acesso ao banco de dados                                      │
+│  ✓ Gerenciar configurações                                       │
+│  ✓ Integração com recursos externos                              │
+│  ✓ Templates e arquivos estáticos                                │
+│                                                                   │
+└──────────────────────────────────────────────────────────────────┘
+                              ↓ ↑
+                        PostgreSQL DB
+
+
+═══════════════════════════════════════════════════════════════════
+                         FLUXO DE DADOS
+═══════════════════════════════════════════════════════════════════
+
+   Cliente HTTP
+       │
+       ↓
+   [Controllers]  ← Valida entrada com schemas
+       │
+       ↓
+   [Domain]       ← Executa lógica de negócio
+       │
+       ↓
+   [Infrastructure] ← Acessa recursos (DB, templates, etc)
+       │
+       ↓
+   [Domain]       ← Processa resultado
+       │
+       ↓
+   [Controllers]  ← Formata resposta HTTP
+       │
+       ↓
+   Cliente HTTP
+
+
+═══════════════════════════════════════════════════════════════════
+                      PRINCÍPIOS SEGUIDOS
+═══════════════════════════════════════════════════════════════════
+
+✓ Separation of Concerns    - Cada camada tem responsabilidade única
+✓ Dependency Inversion      - Domínio não depende de infraestrutura
+✓ Single Responsibility     - Cada módulo tem um propósito claro
+✓ Clean Architecture        - Independência de frameworks
+✓ Testability               - Fácil testar cada camada isoladamente
+✓ Maintainability           - Código organizado e fácil de manter
+
